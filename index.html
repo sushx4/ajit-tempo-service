@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ajit Tempo Service</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+header{
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.hero{
+    text-align:center;
+    padding:40px 20px;
+}
+
+.hero h1{
+    color:#0f172a;
+    margin-bottom:10px;
+}
+
+.search-box{
+    text-align:center;
+    margin:20px;
+}
+
+.search-box input{
+    width:350px;
+    max-width:90%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+}
+
+.trucks{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    width:280px;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+.card h3{
+    color:#2563eb;
+    margin-bottom:15px;
+}
+
+.card button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:5px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.card button:hover{
+    background:#1d4ed8;
+}
+
+footer{
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:30px;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>AJIT TEMPO SERVICE</h1>
+    <p>Truck Document Management System</p>
+</header>
+
+<section class="hero">
+    <h1>All Truck Documents in One Place</h1>
+    <p>Click Vehicle Number to Open Documents</p>
+</section>
+
+<div class="search-box">
+    <input type="text" id="search" placeholder="Search Vehicle Number">
+</div>
+
+<div class="trucks" id="truckContainer"></div>
+
+<footer>
+    © 2026 Ajit Tempo Service
+</footer>
+
+<script>
+
+// =====================
+// TRUCK DATA
+// =====================
+
+const trucks = {
+
+
+"AJIT SINGH":{drive:"https://drive.google.com/drive/folders/1jPYpHvZfrescO43mAdlh-J59qTZfCB_Q?usp=drive_link"},
+"SUJIT SINGH":{drive:"https://drive.google.com/drive/folders/1mat5sVIK_L9j06moN-uWEzPNXZjOJt90?usp=drive_link"},
+"GJ15AT4132":{drive:"https://drive.google.com/drive/folders/1zKjHZNgM3W7d7Am_Omb-i1H-UIl_sN1S?usp=drive_link"},
+"GJ15XX8240":{drive:"https://drive.google.com/drive/folders/1E1tH-knEr6HEtQw74VgQIAkbwKd-yXZq?usp=drive_link"},
+"DN09P9553":{drive:"https://drive.google.com/drive/folders/1Ho13KIUHEkHrimPgdwOnzOhAzNo1usQH?usp=drive_link"},
+"GJ15AV4993":{drive:"https://drive.google.com/drive/folders/1I3lxM8QnVxE6uopH9yQQqOjuhpE1VdNO?usp=drive_link"},
+"GJ15AX1736":{drive:"https://drive.google.com/drive/folders/1fs4lt_9GiLo45W_z_1SgbT072DOQAvgO?usp=drive_link"},
+"GJ15AV8066":{drive:"https://drive.google.com/drive/folders/1lRskIWLwrGMuZCkS3YA2JFE6zH1_20G6?usp=drive_link"},
+"GJ15AV1855":{drive:"https://drive.google.com/drive/folders/1-q46zROcVgu127hJTPisjr8BJZVmqR4t?usp=drive_link"},
+"GJ15AX1789":{drive:"https://drive.google.com/drive/folders/1rY81LG3_zd-yOMpjwZxCvlvqrBlKRqfn?usp=drive_link"},
+"GJ15Z2064":{drive:"https://drive.google.com/drive/folders/1MEKewgt17jHKT1VQbiHw8yfqGm68rgrh?usp=drive_link"},
+"GJ15AX2739":{drive:"https://drive.google.com/drive/folders/10xbLXlTubVsClP0c8nVPGCMXHxIGzUAB?usp=drive_link"},
+"GJ15UU6491":{drive:"https://drive.google.com/drive/folders/1C_cJG8Xb7sbLLpGDefAOt8eNCGcSY_G3?usp=drive_link"},
+"GJ15AV1523":{drive:"https://drive.google.com/drive/folders/1KV1EcdYbMfO9E0LTE-t-LkwEGMDtDA-B?usp=drive_link"},
+"GJ15AV8960":{drive:"https://drive.google.com/drive/folders/1h8LvAPKtvzgYTZmI3VilB88eDEs__8HC?usp=drive_link"},
+"GJ15AV3371":{drive:"https://drive.google.com/drive/folders/1GvMERgpE-H8-reDngxRUkHrQdKy1g1U_?usp=drive_link"},
+"GJ15UU1447":{drive:"https://drive.google.com/drive/folders/1MG_HHT-JykzWjLwoEUXYcaLz2_SKQarw?usp=drive_link"},
+"GJ15XX0007":{drive:"https://drive.google.com/drive/folders/1S2gnYBMtAaIjgz_zHX8AsLNDxxg1luwm?usp=drive_link"},
+"GJ15AX4953":{drive:"https://drive.google.com/drive/folders/1Wal2FVWxx5f0qzGo7Q5lrs0gTHCC3QwO?usp=drive_link"},
+"GJ15AX6463":{drive:"https://drive.google.com/drive/folders/1tTCiFesX-cQdxdYIAQTdFCUYehjpw8Ac?usp=drive_link"},
+"GJ15AX3285":{drive:"https://drive.google.com/drive/folders/1ZiwNsTyohmQQbtE7BbpzeJDWDt0QUWXL?usp=drive_link"},
+"GJ15AX0956":{drive:"https://drive.google.com/drive/folders/1v67TSgXLPjYEbMWs2EcSMZ8YGuncgR9j?usp=drive_link"},
+"GJ15AX4193":{drive:"https://drive.google.com/drive/folders/1E-5AZGqLZv2bHMUzGm83LD0w-vHhdXU0?usp=drive_link"},
+"GJ15AX8471":{drive:"https://drive.google.com/drive/folders/1p2853AT2C5TcZKjWkNS7H062YsjigEzB?usp=drive_link"},
+<!-- "GJ15XX0021":{drive:"https://drive.google.com/link23"} -->
+
+};  
+
+// =====================
+// CREATE CARDS
+// =====================
+
+const container = document.getElementById("truckContainer");
+
+for(let number in trucks){
+
+container.innerHTML += `
+
+<div class="card">
+    <h3>${number}</h3>
+    <button onclick="openDrive('${number}')">
+        View Documents
+    </button>
+</div>
+
+`;
+
+}
+
+// =====================
+// OPEN DRIVE LINK
+// =====================
+
+function openDrive(number){
+    window.open(trucks[number].drive, "_blank");
+}
+
+// =====================
+// SEARCH
+// =====================
+
+document.getElementById("search").addEventListener("keyup",function(){
+
+let value=this.value.toUpperCase();
+
+document.querySelectorAll(".card").forEach(card=>{
+
+let number=card.querySelector("h3").innerText.toUpperCase();
+
+if(number.includes(value)){
+card.style.display="block";
+}else{
+card.style.display="none";
+}
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
